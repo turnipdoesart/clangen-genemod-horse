@@ -194,7 +194,7 @@ class Pregnancy_Events:
             
             text = choice(Pregnancy_Events.PREGNANT_STRINGS["announcement"])
             cat.get_injured("pregnant", severity="minor")
-            cat.injuries["pregnant"]["duration"] = 1
+            cat.injuries["pregnant"]["duration"] = 11
             text += choice(Pregnancy_Events.PREGNANT_STRINGS[f"minor_severity"])
             text = event_text_adjust(Cat, text, main_cat=cat, clan=clan)
             game.cur_events_list.append(
@@ -588,7 +588,7 @@ class Pregnancy_Events:
         thinking_amount = choices(
             ["correct", "incorrect", "unsure"], [4, 1, 1], k=1
         )
-        if amount <= 6:
+        if amount <= 2:
             correct_guess = "small"
         else:
             correct_guess = "large"
@@ -640,14 +640,8 @@ class Pregnancy_Events:
         if kits_amount == 0:  # safety check, sometimes pregnancies were ending up with 0 due to save rollbacks
             kits_amount = 1
 
-        if kits_amount < 3:
+        if kits_amount < 2:
             stillborn_chance = constants.CONFIG['pregnancy']['stillborn_chances']['small']
-        elif kits_amount == 3:
-            stillborn_chance = constants.CONFIG['pregnancy']['stillborn_chances']['three']
-        elif kits_amount < 6:
-            stillborn_chance = constants.CONFIG['pregnancy']['stillborn_chances']['mid']
-        elif kits_amount < 9:
-            stillborn_chance = constants.CONFIG['pregnancy']['stillborn_chances']['big']
         else:
             stillborn_chance = constants.CONFIG['pregnancy']['stillborn_chances']['large']
         
@@ -1912,26 +1906,16 @@ class Pregnancy_Events:
         if(get_clan_setting('modded_kits')):
 
             one_kit = [1] * constants.CONFIG["pregnancy"]["one_kit_modded"][cat.age.value]
-            two_kits = [2] * constants.CONFIG["pregnancy"]["two_kit_modded"][cat.age.value]
-            three_kits = [3] * constants.CONFIG["pregnancy"]["three_kit_modded"][cat.age.value]
-            four_kits = [4] * constants.CONFIG["pregnancy"]["four_kit_modded"][cat.age.value]
-            five_kits = [5] * constants.CONFIG["pregnancy"]["five_kit_modded"][cat.age.value]
-            six_kits = [choice([6, 7, 8])] * constants.CONFIG["pregnancy"]["six_kit_modded"][cat.age.value]
-            nine_kits = [choice([9, 10, 11, 12])] * constants.CONFIG["pregnancy"]["nine_kit_modded"][cat.age.value]
             max_kits = [choice([13, 14, 15, 16, 17, 18, 19])] * constants.CONFIG["pregnancy"]["max_kit_modded"][cat.age.value]
 
-            amount = choice(one_kit + two_kits + three_kits + four_kits + five_kits + six_kits + nine_kits + max_kits)
+            amount = choice(one_kit + max_kits)
 
         else:
             min_kits = constants.CONFIG["pregnancy"]["min_kits"]
             min_kit = [min_kits] * constants.CONFIG["pregnancy"]["one_kit_possibility"][cat.age.value]
-            two_kits = [min_kits + 1] * constants.CONFIG["pregnancy"]["two_kit_possibility"][cat.age.value]
-            three_kits = [min_kits + 2] * constants.CONFIG["pregnancy"]["three_kit_possibility"][cat.age.value]
-            four_kits = [min_kits + 3] * constants.CONFIG["pregnancy"]["four_kit_possibility"][cat.age.value]
-            five_kits = [min_kits + 4] * constants.CONFIG["pregnancy"]["five_kit_possibility"][cat.age.value]
             max_kits = [constants.CONFIG["pregnancy"]["max_kits"]] * constants.CONFIG["pregnancy"]["max_kit_possibility"][cat.age.value]
 
-            amount = choice(min_kit + two_kits + three_kits + four_kits + five_kits + max_kits)
+            amount = choice(min_kit + max_kits)
         
         if hidden:
             amount = max(1, int(amount/3))

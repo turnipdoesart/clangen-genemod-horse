@@ -286,11 +286,11 @@ dev_tools = false
     "senior adult" = 10
     senior = 4
 
-  [pregnancy.two_kit_possibility]
-    "young adult" = 100
-    adult = 200
-    "senior adult" = 64
-    senior = 40
+  [pregnancy.max_kit_possibility]
+    "young adult" = 1
+    adult = 2
+    "senior adult" = 9
+    senior = 3
 
 
   [pregnancy.one_kit_modded]
@@ -298,38 +298,6 @@ dev_tools = false
     adult = 8
     "senior adult" = 16
     senior = 2
-  [pregnancy.two_kit_modded]
-    "young adult" = 256
-    adult = 16
-    "senior adult" = 32
-    senior = 8
-  [pregnancy.three_kit_modded]
-    "young adult" = 256
-    adult = 32
-    "senior adult" = 64
-    senior = 8
-  [pregnancy.four_kit_modded]
-    "young adult" = 256
-    adult = 32
-    "senior adult" = 64
-    senior = 4
-  [pregnancy.five_kit_modded]
-    "young adult" = 128
-    adult = 32
-    "senior adult" = 64
-    senior = 2
-  # 6-8 random litter size
-  [pregnancy.six_kit_modded]
-    "young adult" = 64
-    adult = 16
-    "senior adult" = 32
-    senior = 1
-  # 9-12 random litter size
-  [pregnancy.nine_kit_modded]
-    "young adult" = 16
-    adult = 4
-    "senior adult" = 6
-    senior = 0
   # 13-19 random litter size
   [pregnancy.max_kit_modded]
     "young adult" = 1
