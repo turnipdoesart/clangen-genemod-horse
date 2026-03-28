@@ -235,7 +235,7 @@ dev_tools = false
 
 [pregnancy]
   # cooldown for cats getting pregnant that applies after giving birth
-  birth_cooldown = 6
+  birth_cooldown = 1
 
   # 1/chance that kits, relationship and other factors will influence this chance. modded_ is used with modded litters
   primary_chance_mated = 80
@@ -277,7 +277,7 @@ dev_tools = false
   # As in, your max kits number should probably be 5 more than the min kits number.
   # But that's not required - just makes more sense that way with how the litters are generated.
   min_kits = 1
-  max_kits = 6
+  max_kits = 2
 
   # number / total for that age across all kit amounts = chance of having that many kits for that age
   [pregnancy.one_kit_possibility]
@@ -287,34 +287,11 @@ dev_tools = false
     senior = 4
 
   [pregnancy.two_kit_possibility]
-    "young adult" = 10
-    adult = 13
-    "senior adult" = 15
-    senior = 3
+    "young adult" = 100
+    adult = 200
+    "senior adult" = 64
+    senior = 40
 
-  [pregnancy.three_kit_possibility]
-    "young adult" = 17
-    adult = 15
-    "senior adult" = 5
-    senior = 1
-
-  [pregnancy.four_kit_possibility]
-    "young adult" = 12
-    adult = 8
-    "senior adult" = 2
-    senior = 0
-
-  [pregnancy.five_kit_possibility]
-    "young adult" = 6
-    adult = 2
-    "senior adult" = 0
-    senior = 0
-
-  [pregnancy.max_kit_possibility]
-    "young adult" = 2
-    adult = 0
-    "senior adult" = 0
-    senior = 0
 
   [pregnancy.one_kit_modded]
     "young adult" = 128

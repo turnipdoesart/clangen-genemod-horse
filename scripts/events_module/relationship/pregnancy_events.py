@@ -111,7 +111,7 @@ class Pregnancy_Events:
             if moons == 1:
                 Pregnancy_Events.handle_one_moon_pregnant(cat, clan)
                 return
-            if moons >= 2:
+            if moons >= 12:
                 Pregnancy_Events.handle_two_moon_pregnant(cat, clan)
                 # events.ceremony_accessory = True
                 return
