@@ -516,7 +516,7 @@ class Status:
         Twolegs and are now a kittypet)
         """
         rank = CatRank(new_social_status)
-        self._modify_group(rank, standing_with_past_group=CatStanding.KNOWN)
+        self._modify_group(rank, standing_with_past_group=CatStanding.LEFT)
 
     def add_to_group(
         self,
@@ -646,11 +646,11 @@ class Status:
                 return entry["standing"]
         return []
 
-    def find_prior_clan_rank(self, clan_ID: str = None) -> CatRank:
+    def find_prior_clan_rank(self, clan_ID: str = None) -> Optional[CatRank]:
         """
         Finds the last held clan rank of a current outsider
-        :param clan_ID: pass the ID of a clan to only return the cat's prior rank within that clan. Default is None, if
-        None then the last rank within any Clan will be returned.
+        :param clan_ID: pass the ID of a clan to only return the cat's prior rank within that Clan. Default is None, if
+        None then the last rank within any Clan will be returned. If the cat has never been in a Clan, None is returned.
         """
         if clan_ID:
             past_ranks = [
@@ -664,6 +664,8 @@ class Status:
                 for rank in self.all_ranks.keys()
                 if rank not in [CatRank.LONER, CatRank.KITTYPET, CatRank.ROGUE]
             ]
+        if not past_ranks:
+            return None
 
         return past_ranks[-1]
 
@@ -730,6 +732,23 @@ class Status:
         standing = self.get_standing_with_group(group_ID)
 
         return standing and standing[-1] == CatStanding.EXILED
+
+    def has_left(self, group_ID: str = None) -> bool:
+        """
+        Returns True if cat is exiled from a group.
+        :param group_ID: Use to specify the group to check exiled status against. If no group is given, this will return True if the cat is exiled from any group.
+        """
+        # if no group given
+        if not group_ID:
+            for entry in self.standing_history[::-1]:
+                if entry["standing"][-1] in [CatStanding.LEFT]:
+                    return entry["group"]
+            return False
+
+        # if group given
+        standing = self.get_standing_with_group(group_ID)
+
+        return standing and standing[-1] in [CatStanding.LEFT]
 
     def is_near(self, group_ID: str = None) -> bool:
         """

@@ -22,7 +22,8 @@
             "trait": [
                 "bloodthirsty"
             ],
-            "skill": ["STEALTH,1", "FIGHTER,1"]
+            "skill": ["STEALTH,1", "FIGHTER,1"],
+            "relationship_status": [ "dislikes" ]
         },
         "injury": [
             {
@@ -39,13 +40,72 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect", "romance", "trust", "comfort" ],
-                "amount": -15,
+                "amount": -25,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to ambushed cat_from."
                 }
             }
-        ]
+        ],
+        "other_clan": {
+            "changed": -2
+        }
+    },
+    {
+        "event_id": "gen_single_gathering_truce1",
+        "location": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "sub_type": [ ],
+        "frequency": 1,
+        "event_text": [
+            "m_c lost {PRONOUN/m_c/poss} temper at r_c during the Gathering and violated the truce.",
+            "During the Gathering, m_c acted without thinking and turned an argument with r_c into a brawl."
+        ],
+        "m_c": {
+            "trait": ["bloodthirsty", "troublesome", "vengeful", "fierce"]
+        },
+        "r_c": {
+            "relationship_status": ["dislikes"]
+        },
+        "injury": [
+            {
+                "cats": [
+                    "r_c"
+                ],
+                "injuries": [
+                    "battle_injury"
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "cats_from": [ "r_c" ],
+                "cats_to": [ "m_c" ],
+                "values": [ "like", "respect", "romance", "trust", "comfort" ],
+                "amount": -25,
+                "mutual": false,
+                "log": {
+                    "cats_from": "cat_to attacked cat_from during the Gathering."
+                }
+            },
+            {
+                "cats_from": [ "clan", "low_aggress" ],
+                "cats_to": [ "m_c" ],
+                "values": [ "respect", "trust", "comfort" ],
+                "amount": -15,
+                "mutual": false,
+                "log": {
+                    "cats_from": "cat_from heard about cat_to attacking someone during the Gathering."
+                }
+            }
+        ],
+        "other_clan": {
+            "changed": -5
+        }
     },
     {
         "event_id": "gen_single_ambush2",
@@ -86,7 +146,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect", "romance", "trust", "comfort" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to pulled cat_from underwater as a prank."
@@ -146,10 +206,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "comfort" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_to pulled cat_from underwater as a prank, both laughed it off."
+                    "cats_from": "cat_to pulled cat_from underwater as a prank, but both laughed it off."
                 }
             }
         ]
@@ -242,7 +302,7 @@
                 "cats_from": [ "clan", "high_lawful", "high_aggress" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "respect", "trust" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from heard cat_to shared Clan secrets with r_c from o_c_n."
@@ -285,7 +345,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to caught cat_from crossing the border accidentally and refused to accept an apology."
@@ -295,7 +355,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from caught cat_to crossing the border accidentally."
@@ -335,7 +395,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to mocked cat_from for accusing {PRONOUN/cat_to/object} of tresspassing."
@@ -417,6 +477,7 @@
         "frequency": 2,
         "event_text": [
             "m_c had a secret meetup with r_c at the border.",
+            "m_c snuck out of camp for a secret meetup with r_c at the border.",
             "m_c waited deliberately near the border to flirt with r_c.",
             "m_c waited deliberately near the border to strike up a conversation with r_c."
         ],
@@ -493,10 +554,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "romance" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from got into an argument with to_cat."
+                    "cats_from": "cat_from got into an argument with cat_to."
                 }
             }
         ]
@@ -522,10 +583,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from had a pleasant conversation with to_cat."
+                    "cats_from": "cat_from had a pleasant conversation with cat_to."
                 }
             }
         ]
@@ -550,10 +611,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from had a pleasant discussion with to_cat."
+                    "cats_from": "cat_from had a pleasant discussion with cat_to."
                 }
             }
         ]
@@ -578,7 +639,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "comfort" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to gave cat_from a toy at the Gathering, which cat_to secretly appreciated."
@@ -606,7 +667,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to gave cat_from a toy at the Gathering, which cat_to took offense to."
@@ -637,10 +698,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "trust", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from shared some tips with to_cat."
+                    "cats_from": "cat_from shared some tips with cat_to."
                 }
             }
         ]
@@ -729,7 +790,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect", "trust" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to got into an argument over a digging competition."
@@ -759,7 +820,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect", "trust" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to got into an argument over a race."
@@ -789,7 +850,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to got into a digging competition that cat_from won."
@@ -819,7 +880,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to got into a race that cat_from won."
@@ -850,10 +911,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "trust", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from shared some tips with to_cat."
+                    "cats_from": "cat_from shared some tips with cat_to."
                 }
             }
         ],
@@ -879,10 +940,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
-                    "cats_from": "cat_from shared some prey with to_cat."
+                    "cats_from": "cat_from shared some prey with cat_to."
                 }
             }
         ],
@@ -901,7 +962,7 @@
         "sub_type": [ ],
         "frequency": 4,
         "event_text": [
-            "m_c confidently told r_c about 'adult things' that were blatantly untrue, but r_c fully believed {PRONOUN/m_c/object}."
+            "m_c confidently told r_c things about what being an adult is like which were blatantly untrue, but r_c fully believed {PRONOUN/m_c/object}."
         ],
         "m_c": {
             "age": [ "-adolescent" ],
@@ -925,10 +986,10 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "trust" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
-                    "cats_from": "cat_from believed to_cat's lies about what being an adult is like."
+                    "cats_from": "cat_from believed cat_to's lies about what being an adult is like."
                 }
             }
         ]
@@ -944,7 +1005,7 @@
         "sub_type": [ ],
         "frequency": 4,
         "event_text": [
-            "m_c confidently told r_c about 'adult things' that were blatantly untrue, but r_c caught on."
+            "m_c confidently told r_c things about what being an adult is like which were blatantly untrue, but r_c caught on."
         ],
         "m_c": {
             "age": [ "-adolescent" ],
@@ -1000,10 +1061,10 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "trust", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
-                    "cats_from": "cat_from believed to_cat's boasting about c_n."
+                    "cats_from": "cat_from believed cat_to's boasting about c_n."
                 }
             }
         ]
@@ -1032,7 +1093,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to took turns boasting for fun."
@@ -1097,7 +1158,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "respect" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to took turns trading insults for fun."
@@ -1171,7 +1232,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "trust", "comfort" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to had a pleasant time catching up during the Gathering."
@@ -1212,7 +1273,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from taught cat_to about some Clan history."
@@ -1244,10 +1305,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "trust" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
-                    "cats_from": "cat_from got advice from to_cat."
+                    "cats_from": "cat_from got advice from cat_to."
                 }
             }
         ]
@@ -1277,10 +1338,10 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "trust" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
-                    "cats_from": "cat_from got advice from to_cat."
+                    "cats_from": "cat_from got advice from cat_to."
                 }
             }
         ]
@@ -1347,7 +1408,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "romance", "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from flirted and chatted with cat_to during the Gathering."
@@ -1420,7 +1481,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "trust", "like" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from taught cat_to some new tricks at the Gathering."
@@ -1459,7 +1520,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "comfort", "like", "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to teased cat_from for sitting alone at the Gathering."
@@ -1490,7 +1551,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "comfort" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from told cat_to about an angry spirit following {PRONOUN/cat_to/object} in front of other cats."
@@ -1522,7 +1583,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "comfort", "trust" ],
-                "amount": -10,
+                "amount": -15,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from told cat_to about a Dark Forest ghost following {PRONOUN/cat_to/object} in front of other cats."
@@ -1554,7 +1615,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "comfort" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_from told cat_to about a StarClan spirit following {PRONOUN/cat_to/object}."
@@ -1592,7 +1653,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "comfort", "trust" ],
-                "amount": 10,
+                "amount": 15,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to bonded during the Gathering."
@@ -1631,7 +1692,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "comfort", "trust" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to bonded during the Gathering."
@@ -1667,7 +1728,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "comfort" ],
-                "amount": 10,
+                "amount": 15,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to talked about hypothetically being in the same Clan together."
@@ -1697,7 +1758,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "comfort" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": false,
                 "log": {
                     "cats_from": "cat_to spend the Gathering glaring at cat_from."
@@ -1984,7 +2045,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "respect", "comfort", "trust", "romance" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_to insulted o_c_n to cat_from's face."
@@ -2006,7 +2067,8 @@
         "sub_type": [ ],
         "frequency": 4,
         "event_text": [
-            "m_c mocked r_c for struggling on the ice."
+            "m_c mocked r_c for struggling on the ice.",
+            "Seeing r_c struggling on the ice, m_c couldn't hold back {PRONOUN/m_c/poss} laughter."
         ],
         "m_c": {
             "trait": [
@@ -2026,7 +2088,7 @@
                 "cats_from": [ "r_c" ],
                 "cats_to": [ "m_c" ],
                 "values": [ "like", "respect" ],
-                "amount": -5,
+                "amount": -10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_to mocked cat_from for struggling on the ice."
@@ -2048,7 +2110,7 @@
         "sub_type": [ ],
         "frequency": 4,
         "event_text": [
-            "m_c met r_c resting in the shade and join {PRONOUN/r_c/object}, commiserating about the recent heat."
+            "m_c met r_c resting in the shade and joined {PRONOUN/r_c/object}, commiserating about the recent heat."
         ],
         "m_c": {
         },
@@ -2060,7 +2122,7 @@
                 "cats_from": [ "m_c" ],
                 "cats_to": [ "r_c" ],
                 "values": [ "like", "comfort" ],
-                "amount": 5,
+                "amount": 10,
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_from and cat_to bonded by complaining about the heat."
@@ -2105,6 +2167,45 @@
                 "mutual": true,
                 "log": {
                     "cats_from": "cat_to couldn't help but grimace in disgust over what m_c's favourite prey was."
+                }
+            }
+        ]
+    },
+    {
+        "event_id": "gen_single_prey2",
+        "location": [
+            "any"
+        ],
+        "season": [
+            "leaf-bare"
+        ],
+        "sub_type": [ ],
+        "frequency": 1,
+        "event_text": [
+            "While out hunting, m_c encountered r_c struggling to do the same. {PRONOUN/m_c/subject/CAP} share some prey, since o_c_n seemed to need it more."
+        ],
+        "m_c": {
+            "status": ["apprentice", "warrior", "deputy", "leader"],
+            "trait": [
+                "righteous",
+                "compassionate",
+                "sneaky",
+                "thoughtful",
+                "sincere"
+            ]
+        },
+        "r_c": {
+            "status": [ "apprentice", "warrior", "deputy", "leader" ]
+        },
+        "relationships": [
+            {
+                "cats_from": [ "r_c" ],
+                "cats_to": [ "m_c" ],
+                "values": [ "like", "trust", "respect" ],
+                "amount": 15,
+                "mutual": false,
+                "log": {
+                    "cats_from": "cat_to shared prey with cat_from to help o_c_n."
                 }
             }
         ]

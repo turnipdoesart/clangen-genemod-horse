@@ -180,8 +180,9 @@ dev_tools = false
   # number of welcoming events to add when a new cat joins
   cat_amount_welcoming = 3
 
-  # this is the amount to divide a relative's relation toward the parent when deciding on a relative's initial relationship toward a kit
-  ext_relative_modifier = 4
+  # ext_relative_modifer * parents(len) is what will a relative's relation toward the parent 
+  # will by divided by when deciding on a relative's initial relationship toward a kit
+  ext_relative_modifier = 2
   # relationship buffs represent "default" relationship values that are then lightly randomized
   # in order to create initial relationship values for cats
 
@@ -345,6 +346,19 @@ dev_tools = false
     apprentice-warrior = 75
     warrior-elder = 75
     pelt_change_modifier = 15
+    
+  [cat_name_controls.alt_suffixes] # only with alt suffixes on
+    # how likely should a suffix list be (relative to each other)
+    primary_skill = 4
+    secondary_skill = 2
+
+    trait = 2
+    general_honour = 1
+    trait_honour = 1 # trait-specific honours lists ; if trait-specific honours removed entirely, uses general_honour instead
+
+    special = 1
+    common = 3 # for cats not graduating early
+    common_early = 1 # for healers graduating before 15 and other cats graduating before 12 moons old
 
 [accessory_generation]
   # base 1/chance a cat generates with an accessory 
@@ -613,6 +627,9 @@ dev_tools = false
   kittypet_breed = 75
   other_breed = 1000
 
+  # when gene boost is applicable, chance will be divided by this value and rounded up. Eg. for chocolate it would be 20/1.5 = 14
+  boost_value = 1.5
+
   chimera = 1000
   identical_twins = 333
   intersex = 100
@@ -724,7 +741,7 @@ dev_tools = false
 
 [april_fools_genes]
   green = 25
-  polycaudal = 15
+  polycaudal = 25
   rainbow_eyes = 10
   black_spotting = 15 # both this and peacock blue courtesy of mars from Create a Clan
   peacock_blue = 10
@@ -863,7 +880,7 @@ dev_tools = false
       "running nose" = 5
       whitecough = 1
 
-  [focus."rest_and_recover"]
+  [focus.rest_and_recover]
     # roughly 1/chance injuries will be prevented
     injury_prevent = 4
 

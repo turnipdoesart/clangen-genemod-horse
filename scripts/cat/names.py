@@ -129,16 +129,70 @@ class Name:
                 if name_fixpref and self.prefix is None:
                     # needed for random dice when we're changing the Prefix
                     name_fixpref = False
-
-        if self.suffix and not load_existing_name:
-            self.check_name(cat, name_fixpref)
-            if get_clan_setting("ancient names") and get_clan_setting("modded names"):
-                self.suffix = " " + self.suffix.title()
-                self.specsuffix_hidden = True
-        elif not load_existing_name and get_clan_setting("no special suffixes") and get_clan_setting("modded names"):
-            self.specsuffix_hidden = True
     
     def load_clan_names(self, clan):
+        if os.path.exists('resources/dicts/names/alt_prefixes.json'):
+            with open('resources/dicts/names/alt_prefixes.json') as read_file:
+                mod_prefixes = ujson.loads(read_file.read())
+        mod_suffixes = None
+        if os.path.exists('resources/dicts/names/alt_suffixes.json'):
+            with open('resources/dicts/names/alt_suffixes.json') as read_file:
+                mod_suffixes = ujson.loads(read_file.read())
+        if os.path.exists('resources/dicts/names/names.json'):
+            with open('resources/dicts/names/names.json') as read_file:
+                names_dict = ujson.loads(read_file.read())
+
+            if os.path.exists(get_save_dir() + "/prefixlist.txt"):
+                with open(
+                    str(get_save_dir() + "/prefixlist.txt"), "r", encoding="utf-8"
+                ) as read_file:
+                    name_list = read_file.read()
+                    if_names = len(name_list)
+                if if_names > 0:
+                    new_names = name_list.split("\n")
+                    for new_name in new_names:
+                        if new_name != "":
+                            if new_name.startswith("-"):
+                                while new_name[1:] in names_dict["normal_prefixes"]:
+                                    names_dict["normal_prefixes"].remove(
+                                        new_name[1:])
+                            else:
+                                names_dict["normal_prefixes"].append(new_name)
+
+            if os.path.exists(get_save_dir() + "/suffixlist.txt"):
+                with open(
+                    str(get_save_dir() + "/suffixlist.txt"), "r", encoding="utf-8"
+                ) as read_file:
+                    name_list = read_file.read()
+                    if_names = len(name_list)
+                if if_names > 0:
+                    new_names = name_list.split("\n")
+                    for new_name in new_names:
+                        if new_name != "":
+                            if new_name.startswith("-"):
+                                while new_name[1:] in names_dict["normal_suffixes"]:
+                                    names_dict["normal_suffixes"].remove(
+                                        new_name[1:])
+                            else:
+                                names_dict["normal_suffixes"].append(new_name)
+
+            if os.path.exists(get_save_dir() + "/specialsuffixes.txt"):
+                with open(
+                    str(get_save_dir() + "/specialsuffixes.txt", "r"), encoding="utf-8"
+                ) as read_file:
+                    name_list = read_file.read()
+                    if_names = len(name_list)
+                if if_names > 0:
+                    new_names = name_list.split("\n")
+                    for new_name in new_names:
+                        if new_name != "":
+                            if new_name.startswith("-"):
+                                del names_dict["special_suffixes"][new_name[1:]]
+                            elif ":" in new_name:
+                                _tmp = new_name.split(":")
+                                names_dict["special_suffixes"][_tmp[0]] = _tmp[1]
+
+
         if not os.path.exists(get_save_dir() + f"/{clan}" + "/names"):
             return
         if os.path.exists(get_save_dir() + f"/{clan}" + "/names" + "/alt_prefixes.json"):
@@ -216,6 +270,13 @@ class Name:
             ):
                 double_animal = False
             i += 1
+
+        if self.suffix:
+            if get_clan_setting("ancient names") and get_clan_setting("modded names"):
+                self.suffix = " " + self.suffix.title()
+                self.specsuffix_hidden = True
+        elif get_clan_setting("no special suffixes") and get_clan_setting("modded names"):
+            self.specsuffix_hidden = True
 
     def __str__(self):
         return self.__repr__()
@@ -377,30 +438,32 @@ class Name:
         try:
             if self.mod_suffixes and skills and personality:
                 options = []
-                for i in range(4):
+                suffix_settings = constants.CONFIG["cat_name_controls"]["alt_suffixes"]
+                for i in range(suffix_settings["primary_skill"]):
                     try:
                         options.append(self.mod_suffixes['skill'][skills.primary.path.name])
                     except:
                         break
 
                 if skills.secondary:
-                    for i in range(2):
+                    for i in range(suffix_settings["secondary_skill"]):
                         options.append(self.mod_suffixes['skill'].get(skills.secondary.path.name, []))
                 
-                
-                for i in range(2):
+                for i in range(suffix_settings["trait"]):
                     try:
                         options.append(self.mod_suffixes['trait'][personality.trait]['general'])
                     except:
                         options.append(self.mod_suffixes['trait'].get(personality.trait, []))
-                    if honour:
+                if honour:
+                    for i in range(suffix_settings["trait_honour"]):
                         try:
                             options.append(self.mod_suffixes['trait'][personality.trait].get(honour, []))
                         except:
-                            pass
+                            options.append(self.mod_suffixes['honour'].get(honour, []))
+                    for i in range(suffix_settings["general_honour"]):
                         options.append(self.mod_suffixes['honour'].get(honour, []))
 
-                for i in range(1):
+                for i in range(suffix_settings["special"]):
                     options.append(self.mod_suffixes['other']['special'])
 
                 appearance = self.mod_suffixes['other']['common']
@@ -432,9 +495,9 @@ class Name:
                 if 'curl' in self.phenotype.eartype or 'curl' in self.phenotype.tailtype or 'rexed' in self.phenotype.furtype:
                     appearance += self.mod_suffixes['other']['appearance'].get('curled', [])
                 
-                size = 3
+                size = suffix_settings["common"]
                 if self.cat.moons < 11 or (self.cat.status.rank.is_any_medicine_rank() and self.cat.moons < 15):
-                    size = 1
+                    size = suffix_settings["common_early"]
                 for i in range(size):
                     options.append(appearance)
                 self.suffix = ""

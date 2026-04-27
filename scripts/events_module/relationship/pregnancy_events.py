@@ -5,6 +5,7 @@ from copy import copy, deepcopy
 from typing import Dict, List, Union, Optional
 
 import i18n
+import math
 
 from scripts.cat.cats import Cat, BACKSTORIES
 from scripts.cat.enums import (
@@ -597,16 +598,24 @@ class Pregnancy_Events:
 
         if thinking_amount[0] == "correct":
             if correct_guess == "small":
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][0]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["small"]
+                )
             else:
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][1]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["large"]
+                )
         elif thinking_amount[0] == "incorrect":
             if correct_guess == "small":
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][1]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["large"]
+                )
             else:
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][0]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["small"]
+                )
         else:
-            text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][2]
+            text = choice(Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["unsure"])
 
         try:
             if cat.injuries["pregnant"]["severity"] == "minor":
@@ -905,7 +914,7 @@ class Pregnancy_Events:
                     )
                 else:
                     death_event = i18n.t(
-                        "conditions.pregnancy.kitting_death_harsh", name=cat.name
+                        "conditions.pregnancy.kitting_death_severe", name=cat.name
                     )
                 cat.history.add_possible_history("blood loss", death_text=death_event)
                 possible_events = events["birth"]["difficult_birth"]
@@ -1810,7 +1819,7 @@ class Pregnancy_Events:
         all_relatives = [
             Cat.fetch_cat(c)
             for c in all_relatives
-            if c not in parents and c not in all_kitten
+            if c not in list(parents) and c not in [k.ID for k in all_kitten]
         ]
         all_relatives = [c for c in all_relatives if c.status.group_ID == all_kitten[0].status.group_ID]
 
@@ -1818,8 +1827,12 @@ class Pregnancy_Events:
             for c in all_relatives:
                 if c.faded:
                     continue
-                rel_reflection = constants.CONFIG["new_cat"]["ext_relative_modifier"]
-                y = randrange(-10, 10)
+                ext_relative_modifier = constants.CONFIG["new_cat"][
+                    "ext_relative_modifier"
+                ]
+                rel_reflection = ext_relative_modifier * len(parents)
+                variation_range = math.ceil(20 / len(parents))
+                y = randrange(-variation_range, variation_range)
 
                 # this finds what the relative's relationship is toward each parent and applies a reflection of that
                 # relationship to the kit. reflection values will be divided by 4 by default and then modified

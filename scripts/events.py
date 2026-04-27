@@ -218,7 +218,7 @@ def one_moon():
         extra_event = None
         for ghost in game.dead_cats_to_grieve:
             last_living = ghost.status.get_last_living_group()
-            if ghost.status.is_exiled(last_living):
+            if ghost.status.is_exiled(last_living) or ghost.status.has_left(last_living):
                 pass
             elif last_living == CatGroup.PLAYER_CLAN_ID:
                 if game.clan.displayname not in ghost_names:
@@ -752,7 +752,7 @@ def handle_focus():
         - raid other clans
         - hoarding
     Focus which are not able to be handled here:
-        rest and recover - handled in:
+        rest_and_recover - handled in:
             - 'handle_outbreaks'
             - 'condition_events.handle_injuries'
             - 'condition_events.handle_illnesses'
@@ -1128,6 +1128,31 @@ def one_moon_outside_cat(cat, other_clan_cats: list = None):
 
     handle_outside_EX(cat)
 
+    # handling the rank changes for Other Clan cats
+    # this is SUPER rudimentary rn, really just a temp patch to handle our current little edge-cases
+    if cat.status.is_other_clancat:
+        # kitten to apprentice - for now it's going to be limited to warrior apprentices
+        if cat.moons == cat_class.age_moons[CatAge.ADOLESCENT][0]:
+            cat.status._change_rank(CatRank.APPRENTICE)
+            # we aren't going to worry about sourcing a mentor, we're gonna pretend it's "hidden" from the player
+        # apprentice to full
+        if cat.moons >= cat_class.age_moons[CatAge.YOUNG_ADULT][0]:
+            # warrior
+            if cat.status.rank == CatRank.APPRENTICE:
+                cat.status._change_rank(CatRank.WARRIOR)
+            # med cat
+            if cat.status.rank == CatRank.MEDICINE_APPRENTICE:
+                cat.status._change_rank(CatRank.MEDICINE_CAT)
+            # mediator (just in case)
+            if cat.status.rank == CatRank.MEDIATOR_APPRENTICE:
+                cat.status._change_rank(CatRank.MEDIATOR)
+        # cat to elder
+        if cat.moons >= cat_class.age_moons[CatAge.SENIOR][0]:
+            # exclude the roles that don't really retire
+            if cat.status.rank not in (CatRank.LEADER, CatRank.MEDICINE_CAT):
+                cat.status._change_rank(CatRank.ELDER)
+
+    # skill progression needs to be after rank progression
     cat.skills.progress_skill(cat)
     Pregnancy_Events.handle_having_kits(cat, clan=clan)
 
@@ -1406,9 +1431,9 @@ def check_war():
                     victor = clan if not enemy_can_fight else enemy
                 else:
                     threshold = 10
-                    if enemy_clan.temperament == "bloodthirsty":
+                    if enemy_clan.temperament[0] == "bloodthirsty":
                         threshold = 12
-                    if enemy_clan.temperament in ["mellow", "amiable", "gracious"]:
+                    if enemy_clan.temperament[0] in ["mellow", "amiable", "gracious"]:
                         threshold = 7
 
                     threshold -= int(game.clan.war[clan][enemy]["duration"])
@@ -1450,9 +1475,9 @@ def check_war():
                 if active_wars and random.random() > 0.125:
                     continue
                 threshold = 5
-                if enemy_clan.temperament == "bloodthirsty":
+                if enemy_clan.temperament[0] == "bloodthirsty":
                     threshold = 10
-                if enemy_clan.temperament in ["mellow", "amiable", "gracious"]:
+                if enemy_clan.temperament[0] in ["mellow", "amiable", "gracious"]:
                     threshold = 3
 
                 rel_value = game.clan.get_relations(main_clan, enemy_clan)
@@ -1527,20 +1552,21 @@ def perform_ceremonies(cat, clan):
             and not clan.deputy.status.group_ID != clan.group_ID
             and (leader_dead or leader_outside)
         ):
+            old_name = clan.deputy.name
             clan.new_leader(clan.deputy)
             cat = clan.leader
             text = ""
-            if clan.deputy.personality.trait == "bloodthirsty":
+            if cat.personality.trait == "bloodthirsty":
                 text = i18n.t(
                     "hardcoded.ceremony_leader_bloodthirsty",
-                    oldname=clan.deputy.name,
+                    oldname=old_name,
                     newname=cat.name,
-                    )
+                )
             else:
                 c = random.randint(1, 3)
                 text = i18n.t(
                     f"hardcoded.ceremony_leader_{c}",
-                    oldname=clan.deputy.name,
+                    oldname=old_name,
                     newname=cat.name,
                 )
 
@@ -1550,7 +1576,7 @@ def perform_ceremonies(cat, clan):
             text = event_text_adjust(Cat, text, main_cat=cat, clan=clan)
 
             game.cur_events_list.append(
-                Single_Event(text, "ceremony", clan.deputy.ID, clan=clan.group_ID)
+                Single_Event(text, "ceremony", cat.ID, clan=clan.group_ID)
             )
             ceremony_accessory = True
             gain_accessories(cat, clan)
@@ -2733,8 +2759,8 @@ def handle_outbreaks(cat, clan):
             ):
                 continue
 
-            if get_clan_setting("rest and recover") and clan == game.clan:
-                stopping_chance = constants.CONFIG["focus"]["rest and recover"][
+            if get_clan_setting("rest_and_recover") and clan == game.clan:
+                stopping_chance = constants.CONFIG["focus"]["rest_and_recover"][
                     "outbreak_prevention"
                 ]
                 if not int(random.random() * stopping_chance):

@@ -106,7 +106,7 @@ def event_for_season(seasons: list) -> bool:
 
     is_exclusionary = _check_for_exclusionary_value(seasons)
     if is_exclusionary:
-        seasons = [x.replace("-", "") for x in seasons]
+        seasons = [x.replace("-", "", 1) for x in seasons]
 
     if game.clan.current_season.lower() in seasons:
         return not is_exclusionary
@@ -278,6 +278,10 @@ def event_for_other_clan(Cat, ranks: list, other_clan) -> bool:
             (parents, orphans) = get_alive_clan_queens(all_clan_cats, clan=other_clan)
             if not len(parents) or (len(parents) < 2 and "mult" in rank):
                 return False
+        if "exiled" in rank:
+            all_clan_cats = [i for i in Cat.all_cats.values() if i.status.is_exiled(other_clan) and i.status.is_outsider and i.status.is_near()]
+            if not len(all_clan_cats) or (len(all_clan_cats) < 2 and "mult" in rank):
+                return False
         else:            
             if "any_app" in rank:
                 final_ranks = ["apprentice", "mediator apprentice", "healer apprentice"]
@@ -291,7 +295,7 @@ def event_for_other_clan(Cat, ranks: list, other_clan) -> bool:
                 final_ranks = ["mediator", "mediator apprentice"]
             oc_cats = find_alive_cats_with_rank(
                 Cat, final_ranks, working=True, clan=other_clan)
-            if not oc_cats or (len(oc_cats) < 2 and "mult" in rank):
+            if not oc_cats or (len(oc_cats) < 3 and "mult" in rank):
                 return False
         
     return True
@@ -789,6 +793,8 @@ def _get_cats_with_status(cat_list: list, statuses: tuple) -> list:
     if not statuses or "any" in statuses:
         return cat_list
 
+    statuses = [s.replace("medicine cat", "healer") for s in statuses]
+
     is_exclusionary = _check_for_exclusionary_value(statuses)
 
     if is_exclusionary:
@@ -872,7 +878,7 @@ def _get_cats_with_backstory(cat_list: list, backstories: tuple) -> list:
         return [kitty for kitty in cat_list if kitty.backstory in allowed_stories]
 
 
-def _check_for_exclusionary_value(possible_values) -> bool:
+def _check_for_exclusionary_value(possible_values: List[str]) -> bool:
     """
     Checks the given list for an exclusionary value and returns True or False
     """
@@ -914,6 +920,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
     qualifies = False
 
     if "strangers" in filter_types:
+        qualifies = False
         if any([inter_cat.ID in test_cat.relationships for inter_cat in testing_cats]):
             if "strangers" in exclusionary_values:
                 qualifies = True
@@ -927,6 +934,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
         filter_types.remove("strangers")
 
     if "siblings" in filter_types:
+        qualifies = False
         if not all([test_cat.is_sibling(inter_cat) for inter_cat in testing_cats]):
             if "siblings" in exclusionary_values:
                 qualifies = True
@@ -937,6 +945,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
         filter_types.remove("siblings")
 
     if "littermates" in filter_types:
+        qualifies = False
         if not all([test_cat.is_littermate(inter_cat) for inter_cat in testing_cats]):
             if "littermates" in exclusionary_values:
                 qualifies = True
@@ -952,6 +961,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
             return False
 
         # then if cats don't have the needed number of mates
+        qualifies = False
         if not all(len(i.mate) >= (len(group) - 1) for i in group):
             if "mates" in exclusionary_values:
                 qualifies = True
@@ -978,6 +988,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
             return False
 
         # Check each cat to see if it is mates with the patrol leader
+        qualifies = False
         for cat in group:
             if cat.ID == patrol_leader.ID:
                 continue
@@ -996,6 +1007,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
         if len(group) != 2:
             return False
         # test for parentage
+        qualifies = False
         if not group[0].is_parent(group[1]):
             if "parent/child" in exclusionary_values:
                 qualifies = True
@@ -1010,6 +1022,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
         if len(group) != 2:
             return False
         # test for parentage
+        qualifies = False
         if not group[1].is_parent(group[0]):
             if "child/parent" in exclusionary_values:
                 qualifies = True
@@ -1021,6 +1034,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
 
     if "mentor/app" in filter_types:
         # It should be exactly two cats for a "mentor/app" event
+        qualifies = False
         if len(group) != 2:
             return False
         # test for parentage
@@ -1038,6 +1052,7 @@ def filter_relationship_type(group: list, filter_types: List[str], patrol_leader
         if len(group) != 2:
             return False
         # test for parentage
+        qualifies = False
         if not group[0].ID in group[1].apprentice:
             if "app/mentor" in exclusionary_values:
                 qualifies = True

@@ -1007,7 +1007,10 @@
                             "trust",
                             "comfort"
                         ],
-                        "amount": 30
+                        "amount": 30,
+                        "log": {
+                            "cats_from": "cat_from and cat_to fell in love over the course of many stolen moments at the border."
+                        }
                     },
                     {
                         "cats_from": [
@@ -1053,7 +1056,10 @@
                             "trust",
                             "comfort"
                         ],
-                        "amount": 30
+                        "amount": 30,
+                        "log": {
+                            "cats_from": "cat_from and cat_to fell in love over the course of many stolen moments at the border."
+                        }
                     },
                     {
                         "cats_from": [
@@ -1113,11 +1119,14 @@
                             "like",
                             "romance"
                         ],
-                        "amount": 50
+                        "amount": 50,
+                        "log": {
+                            "cats_from": "cat_from and cat_to fell in love over the course of many stolen moments at the border."
+                        }
                     },
                     {
                         "cats_from": [
-                            "high_lawful"
+                            "clan", "high_lawful"
                         ],
                         "cats_to": [
                             "p_l"
@@ -1163,7 +1172,10 @@
                             "trust",
                             "comfort"
                         ],
-                        "amount": 30
+                        "amount": 30,
+                        "log": {
+                            "cats_from": "cat_from and cat_to fell in love over the course of many stolen moments at the border."
+                        }
                     },
                     {
                         "cats_from": [
@@ -1222,7 +1234,10 @@
                             "like",
                             "romance"
                         ],
-                        "amount": 50
+                        "amount": 50,
+                        "log": {
+                            "cats_from": "cat_from and cat_to fell in love over the course of many stolen moments at the border."
+                        }
                     }
                 ],
                 "outsider_rep": 0,
@@ -4013,7 +4028,10 @@
                         "values": [
                             "respect"
                         ],
-                        "amount": 5
+                        "amount": 5,
+                        "log": {
+                            "cats_from": "cat_from was grudgingly impressedy by cat_to's ferocity in a fight."
+                        }
                     },
                     {
                         "cats_to": [
@@ -4033,7 +4051,7 @@
                         }
                     }
                 ],
-                "       injury": [
+                "injury": [
                     {
                         "cats": [
                             "p_l"
@@ -4395,9 +4413,6 @@
                     "p_l"
                 ],
                 "history_text": {
-                    "cats": [
-                        "p_l"
-                    ],
                     "death": "m_c died when {PRONOUN/m_c/subject} picked a fight {PRONOUN/m_c/subject} couldn't win."
                 },
                 "outsider_rep": -1,
@@ -5313,13 +5328,13 @@
                 "text": "p_l doesn't care about kittypet drama. {PRONOUN/p_l/subject/CAP} {VERB/p_l/interrupt/interrupts} and {VERB/p_l/tell/tells} the kittypets to get lost. One kittypet doesn't appreciate p_l's tone and takes a swipe at {PRONOUN/p_l/object}. r_c jumps in to help a humiliated p_l drive off the kittypets.",
                 "exp": 20,
                 "outsider_rep": -3,
-                "injuries": [
+                "injury": [
                     {
                         "cats": [
                             "p_l"
                         ],
-                        "injury": [
-                            "cat_bite"
+                        "injuries": [
+                            "cat bite"
                         ],
                         "scars": [
                             "CATBITETWO"
@@ -6197,6 +6212,42 @@
         "decline_text": "It's not the scream of any cat p_l recognizes, so {PRONOUN/p_l/subject} {VERB/p_l/decide/decides} to continue the patrol without checking it out. Surely whoever it is will be fine. Surely.",
         "chance_of_success": 85,
         "success_outcomes": [
+            {
+                "text": "The patrol races towards the sound. They are puzzled when they only see a lone Twoleg, but grim realization soon dawns on them after they hear more screams coming from a bag the Twoleg is holding. Jumping into action, the c_n cats startle the Twoleg into letting go of the bag. While the rest of the patrol claws the ankles of the now furious Twoleg, p_l and r_c quickly and quietly get the shivering kittens out of sight, promising them safety and welcome in c_n.",
+                "exp": 10,
+                "new_cat": [
+                    [ "kittypet", "can_birth", "age:has_kits" ],
+                    [ "litter", "status:kitten", "backstory:abandoned4", "kittypet", "parent:0" ]
+                ],
+                "relationships": [
+                    {
+                        "cats_from": [ "n_c:1" ],
+                        "cats_to": [ "patrol" ],
+                        "values": [ "like", "trust", "comfort" ],
+                        "amount": 10,
+                        "log": {
+                            "cats_from": "cat_to was part of the patrol that rescued cat_from from a cruel Twoleg and brought {PRONOUN/cat_from/object} to c_n."
+                        }
+                    }
+                ],
+                "outsider_rep": 1,
+                "injury": [
+                    {
+                        "cats": [
+                            "n_c:1"
+                        ],
+                        "injuries": [
+                            "blunt_force_injury"
+                        ],
+                        "no_results": true
+                    }
+                ],
+                "history_text": {
+                    "scar": "m_c was scarred after a Twoleg attempted to drown {PRONOUN/m_c/object}.",
+                    "death": "m_c died of injuries inflicted by a Twoleg attempting to drown {PRONOUN/m_c/object}."
+                },
+                "frequency": 1
+            },
             {
                 "text": "The patrol races towards the sound. They're puzzled when they only see a Twoleg, but realization soon dawns when the bag it holds thrashes and wails. Jumping into action, the c_n cats startle the Twoleg into letting go of the bag. While the angered Twoleg is distracted, p_l and r_c hurriedly get the shivering old cat out of sight, promising {PRONOUN/n_c:0/object} safety in c_n for as long as {PRONOUN/n_c:0/subject} {VERB/n_c:0/wish/wishes}.",
                 "exp": 10,
@@ -7465,8 +7516,7 @@
             ]
             ],
     "art": "gen_dead_cat_ghost_EXPLICIT",
-    "art_clean": "gen_dead_cat",
-    "future_event": []
+    "art_clean": "gen_dead_cat"
 }
     ],
     "antag_success_outcomes": [
@@ -7539,7 +7589,7 @@
     ],
     "history_text": {
         "death": "m_c died from an injury sustained when r_c attacked {PRONOUN/m_c/object} by mistake.",
-        "scars": "m_c was scarred when r_c attacked {PRONOUN/m_c/object} by mistake."
+        "scar": "m_c was scarred when r_c attacked {PRONOUN/m_c/object} by mistake."
     },
     "relationships": [
         {
